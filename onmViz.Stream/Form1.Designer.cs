@@ -60,6 +60,7 @@
             button6 = new Button();
             button7 = new Button();
             button8 = new Button();
+            OpManual = new Button();
             ((System.ComponentModel.ISupportInitialize)Camera1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Camera2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WideBox1).BeginInit();
@@ -111,6 +112,7 @@
             WideBox1.Size = new Size(405, 300);
             WideBox1.TabIndex = 2;
             WideBox1.TabStop = false;
+            WideBox1.Click += WideBox1_Click;
             // 
             // Camera3
             // 
@@ -306,7 +308,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(505, 5);
+            button2.Location = new Point(500, 5);
             button2.Name = "button2";
             button2.Size = new Size(127, 29);
             button2.TabIndex = 25;
@@ -374,11 +376,22 @@
             button8.UseVisualStyleBackColor = true;
             button8.Click += button8_Click;
             // 
+            // OpManual
+            // 
+            OpManual.Location = new Point(226, 5);
+            OpManual.Name = "OpManual";
+            OpManual.Size = new Size(153, 29);
+            OpManual.TabIndex = 32;
+            OpManual.Text = "Operação Manual";
+            OpManual.UseVisualStyleBackColor = true;
+            OpManual.Click += OpManual_Click;
+            // 
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.GradientActiveCaption;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(OpManual);
             Controls.Add(button8);
             Controls.Add(button7);
             Controls.Add(button6);
@@ -476,5 +489,6 @@
         private Button button6;
         private Button button7;
         private Button button8;
+        private Button OpManual;
     }
 }

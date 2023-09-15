@@ -72,6 +72,13 @@ namespace onmViz.DAL.Migrations
                     b.Property<int>("DeviceId")
                         .HasColumnType("int");
 
+                    b.Property<int>("IDRecurso")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PictureBoxName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Position")
                         .HasColumnType("int");
 

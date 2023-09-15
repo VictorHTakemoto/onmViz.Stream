@@ -75,11 +75,10 @@ namespace onmViz.Stream
         {
         }
 
-        //TODO:Validar se foi possivel obter stream da camera
-        //TODO:Implementar botao para iniciar e parar cameras
+        //TODO:Criar tabela de logs
+        //TODO:Implementar tela nova e botão e campo de texto para chamar api
         //TODO:Implementar layer com o nome de cada local
-        //TODO:Implementar Threads
-
+        //TODO:Finalizar implementação validacao da abertura de conexao e obter stream da camera
 
         //Camera1
         #region
@@ -98,6 +97,11 @@ namespace onmViz.Stream
                 {
                     string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     _Cam1 = new VideoCapture(rtsp);
+                    if (!_Cam1.IsOpened)
+                    {
+                        MessageBox.Show($"Não foi possível conectar: {pBox.Device.IPAddress}");
+                        return;
+                    }
                     _Cam1.ImageGrabbed += _Cam1_ImageGrabbed;
                     _Cam1.Start();
                 }
@@ -162,6 +166,11 @@ namespace onmViz.Stream
                 {
                     var rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     _Cam2 = new VideoCapture(rtsp);
+                    if (!_Cam2.IsOpened)
+                    {
+                        MessageBox.Show($"Não foi possível conectar: {pBox.Device.IPAddress}");
+                        return;
+                    }
                     _Cam2.ImageGrabbed += _Cam2_ImageGrabbed;
                     _Cam2.Start();
                 }
@@ -257,6 +266,11 @@ namespace onmViz.Stream
                 {
                     var rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     _Cam3 = new VideoCapture(rtsp);
+                    if (!_Cam3.IsOpened)
+                    {
+                        MessageBox.Show($"Não foi possível conectar: {pBox.Device.IPAddress}");
+                        return;
+                    }
                     _Cam3.ImageGrabbed += _Cam3_ImageGrabbed; ;
                     _Cam3.Start();
                 }
@@ -321,6 +335,11 @@ namespace onmViz.Stream
                 {
                     var rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     _Cam4 = new VideoCapture(rtsp);
+                    if (!_Cam4.IsOpened)
+                    {
+                        MessageBox.Show($"Não foi possível conectar: {pBox.Device.IPAddress}");
+                        return;
+                    }
                     _Cam4.ImageGrabbed += _Cam4_ImageGrabbed;
                     _Cam4.Start();
                 }
@@ -1059,7 +1078,7 @@ namespace onmViz.Stream
                         MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
                     }
                 }
-                if(pBox != null)
+                if (pBox != null)
                 {
                     var rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     _Cam13 = new VideoCapture(rtsp);
@@ -1128,7 +1147,7 @@ namespace onmViz.Stream
                         MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
                     }
                 }
-                if(pBox != null)
+                if (pBox != null)
                 {
                     var rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     _Cam14 = new VideoCapture(rtsp);
@@ -1224,7 +1243,7 @@ namespace onmViz.Stream
                         MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
                     }
                 }
-                if ( pBox != null )
+                if (pBox != null)
                 {
                     var rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     _Cam15 = new VideoCapture(rtsp);
@@ -1293,7 +1312,7 @@ namespace onmViz.Stream
                         MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
                     }
                 }
-                if(pBox != null)
+                if (pBox != null)
                 {
                     var rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     _Cam16 = new VideoCapture(rtsp);
@@ -1391,6 +1410,18 @@ namespace onmViz.Stream
             }
             return image.Resize(newWidth, newHeight, Inter.Linear);
         }
-        #endregion        
+        #endregion
+
+        private void OpManual_Click(object sender, EventArgs e)
+        {
+            FetchAPI fetchApi = new FetchAPI();
+
+            fetchApi.Show();
+        }
+
+        private void WideBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

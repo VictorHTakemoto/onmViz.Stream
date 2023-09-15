@@ -110,3 +110,4 @@ C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.pdb
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.genruntimeconfig.cache
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\ref\onmViz.Stream.dll
+C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.FetchAPI.resources
