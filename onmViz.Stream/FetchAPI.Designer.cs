@@ -36,14 +36,14 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(269, 45);
+            textBox1.Location = new Point(12, 12);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(200, 27);
             textBox1.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(12, 44);
+            button1.Location = new Point(12, 45);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 1;
@@ -53,7 +53,7 @@
             // 
             // CloseBtn
             // 
-            CloseBtn.Location = new Point(379, 153);
+            CloseBtn.Location = new Point(313, 153);
             CloseBtn.Name = "CloseBtn";
             CloseBtn.Size = new Size(94, 29);
             CloseBtn.TabIndex = 2;
@@ -64,16 +64,17 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(112, 45);
+            comboBox1.Location = new Point(12, 154);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(151, 28);
             comboBox1.TabIndex = 3;
+            comboBox1.Visible = false;
             // 
             // FetchAPI
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(503, 194);
+            ClientSize = new Size(419, 194);
             Controls.Add(comboBox1);
             Controls.Add(CloseBtn);
             Controls.Add(button1);
@@ -86,10 +87,9 @@
         }
 
         #endregion
-
-        private TextBox textBox1;
         private Button button1;
         private Button CloseBtn;
-        private ComboBox comboBox1;
+        public ComboBox comboBox1;
+        public TextBox textBox1;
     }
 }

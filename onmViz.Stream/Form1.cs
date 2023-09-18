@@ -1,9 +1,9 @@
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
-using Microsoft.Identity.Client;
 using onmViz.DAL.Model;
 using onmViz.DAL.Model.Entity;
+using static Azure.Core.HttpHeader;
 
 namespace onmViz.Stream
 {
@@ -79,6 +79,9 @@ namespace onmViz.Stream
         //TODO:Implementar tela nova e botão e campo de texto para chamar api
         //TODO:Implementar layer com o nome de cada local
         //TODO:Finalizar implementação validacao da abertura de conexao e obter stream da camera
+
+        //Logica VideoCapture e PictureBoxes
+        #region
 
         //Camera1
         #region
@@ -1412,16 +1415,260 @@ namespace onmViz.Stream
         }
         #endregion
 
-        private void OpManual_Click(object sender, EventArgs e)
-        {
-            FetchAPI fetchApi = new FetchAPI();
+        #endregion
 
-            fetchApi.Show();
+        private async void WideBox1_DoubleClick(object sender, EventArgs e)
+        {
+            FetchAPI fetchAPI = new FetchAPI();
+            ComboBox combo1 = fetchAPI.comboBox1;
+            if (WideBox1.Image == null)
+            {
+                return;
+            }
+            if (_ControleCamera1 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 1).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+            if (_ControleCamera2 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 2).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+        }
+        private void WideBox2_DoubleClick(object sender, EventArgs e)
+        {
+            FetchAPI fetchAPI = new FetchAPI();
+            ComboBox combo1 = fetchAPI.comboBox1;
+            if (WideBox2.Image == null)
+            {
+                return;
+            }
+            if (_ControleCamera3 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 3).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+            if (_ControleCamera4 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 4).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+        }
+        private void WideBox3_DoubleClick(object sender, EventArgs e)
+        {
+            FetchAPI fetchAPI = new FetchAPI();
+            ComboBox combo1 = fetchAPI.comboBox1;
+            if (WideBox3.Image == null)
+            {
+                return;
+            }
+            if (_ControleCamera5 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 5).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+            if (_ControleCamera6 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 6).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
         }
 
-        private void WideBox1_Click(object sender, EventArgs e)
+        private void WideBox4_DoubleClick(object sender, EventArgs e)
         {
+            FetchAPI fetchAPI = new FetchAPI();
+            ComboBox combo1 = fetchAPI.comboBox1;
+            if (WideBox4.Image == null)
+            {
+                return;
+            }
+            if (_ControleCamera7 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 7).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+            if (_ControleCamera8 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 8).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+        }
 
+        private void WideBox5_DoubleClick(object sender, EventArgs e)
+        {
+            FetchAPI fetchAPI = new FetchAPI();
+            ComboBox combo1 = fetchAPI.comboBox1;
+            if (WideBox5.Image == null)
+            {
+                return;
+            }
+            if (_ControleCamera9 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 9).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+            if (_ControleCamera10 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 10).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+        }
+
+        private void WideBox6_DoubleClick(object sender, EventArgs e)
+        {
+            FetchAPI fetchAPI = new FetchAPI();
+            ComboBox combo1 = fetchAPI.comboBox1;
+            if (WideBox6.Image == null)
+            {
+                return;
+            }
+            if (_ControleCamera11 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 11).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+            if (_ControleCamera12 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 12).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+        }
+
+        private void WideBox7_DoubleClick(object sender, EventArgs e)
+        {
+            FetchAPI fetchAPI = new FetchAPI();
+            ComboBox combo1 = fetchAPI.comboBox1;
+            if (WideBox7.Image == null)
+            {
+                return;
+            }
+            if (_ControleCamera13 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 13).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+            if (_ControleCamera14 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 14).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+        }
+
+        private void WideBox8_DoubleClick(object sender, EventArgs e)
+        {
+            FetchAPI fetchAPI = new FetchAPI();
+            ComboBox combo1 = fetchAPI.comboBox1;
+            if (WideBox8.Image == null)
+            {
+                return;
+            }
+            if (_ControleCamera15 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 15).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
+            if (_ControleCamera16 == 1)
+            {
+                fetchAPI.Show();
+                PBox pBox;
+                using (var db = new onmVizDBContext())
+                {
+                    pBox = db.PictureBoxes.Where(d => d.Position == 16).FirstOrDefault();
+                    combo1.Text = pBox.PictureBoxName;
+                }
+                return;
+            }
         }
     }
 }

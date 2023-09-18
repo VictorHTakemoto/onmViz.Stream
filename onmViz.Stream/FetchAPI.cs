@@ -3,18 +3,8 @@ using Newtonsoft.Json.Linq;
 using onmViz.DAL.Model;
 using onmViz.DAL.Model.Entity;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static Emgu.CV.VideoCapture;
-using static System.Net.Mime.MediaTypeNames;
+using File = System.IO.File;
 
 namespace onmViz.Stream
 {
@@ -83,8 +73,9 @@ namespace onmViz.Stream
         {
             try
             {
-                //TODO: Parametrizar URL via json
-                var options = new RestClientOptions("http://10.10.4.58:8082")
+                string paramsJson = AppContext.BaseDirectory + "\\params.json";
+                JObject globalParams = JObject.Parse(File.ReadAllText(paramsJson));
+                var options = new RestClientOptions($"{globalParams["Http"]}{globalParams["Porta"]}")
                 {
                     MaxTimeout = -1,
                 };

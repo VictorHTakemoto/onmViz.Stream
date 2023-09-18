@@ -112,7 +112,7 @@
             WideBox1.Size = new Size(405, 300);
             WideBox1.TabIndex = 2;
             WideBox1.TabStop = false;
-            WideBox1.Click += WideBox1_Click;
+            WideBox1.DoubleClick += WideBox1_DoubleClick;
             // 
             // Camera3
             // 
@@ -175,6 +175,7 @@
             WideBox5.Size = new Size(405, 300);
             WideBox5.TabIndex = 11;
             WideBox5.TabStop = false;
+            WideBox5.DoubleClick += WideBox5_DoubleClick;
             // 
             // Camera10
             // 
@@ -201,6 +202,7 @@
             WideBox2.Size = new Size(405, 300);
             WideBox2.TabIndex = 12;
             WideBox2.TabStop = false;
+            WideBox2.DoubleClick += WideBox2_DoubleClick;
             // 
             // WideBox3
             // 
@@ -209,6 +211,7 @@
             WideBox3.Size = new Size(405, 300);
             WideBox3.TabIndex = 13;
             WideBox3.TabStop = false;
+            WideBox3.DoubleClick += WideBox3_DoubleClick;
             // 
             // WideBox4
             // 
@@ -217,6 +220,7 @@
             WideBox4.Size = new Size(405, 300);
             WideBox4.TabIndex = 14;
             WideBox4.TabStop = false;
+            WideBox4.DoubleClick += WideBox4_DoubleClick;
             // 
             // WideBox6
             // 
@@ -225,6 +229,7 @@
             WideBox6.Size = new Size(405, 300);
             WideBox6.TabIndex = 17;
             WideBox6.TabStop = false;
+            WideBox6.DoubleClick += WideBox6_DoubleClick;
             // 
             // Camera12
             // 
@@ -251,6 +256,7 @@
             WideBox7.Size = new Size(405, 300);
             WideBox7.TabIndex = 20;
             WideBox7.TabStop = false;
+            WideBox7.DoubleClick += WideBox7_DoubleClick;
             // 
             // Camera14
             // 
@@ -277,6 +283,7 @@
             WideBox8.Size = new Size(405, 300);
             WideBox8.TabIndex = 23;
             WideBox8.TabStop = false;
+            WideBox8.DoubleClick += WideBox8_DoubleClick;
             // 
             // Camera16
             // 
@@ -384,7 +391,7 @@
             OpManual.TabIndex = 32;
             OpManual.Text = "Operação Manual";
             OpManual.UseVisualStyleBackColor = true;
-            OpManual.Click += OpManual_Click;
+            OpManual.Visible = false;
             // 
             // Form1
             // 
