@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0rjLXKejACduOzyaRf6aQQC+cmWeAwrjFoT9LPgKl5UpFkBI2+e7QFcuRUgqwd5NqLGC0KEadkGeQa1vvEC15w==",
+  "dgSpecHash": "m0pooVpYva786fIcRF9vBgrlUtFTxxeRYQX814H+nuhffUb5XWUw1VovWZp8KM86AdXFei3+XUScAk75Cci2ag==",
   "success": true,
   "projectFilePath": "C:\\Users\\victo\\source\\repos\\StreamCapture\\onmViz.DAL\\onmViz.DAL.csproj",
   "expectedPackageFiles": [
@@ -94,7 +94,10 @@
     "C:\\Users\\victo\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
     "C:\\Users\\victo\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\victo\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "C:\\Users\\victo\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512"
+    "C:\\Users\\victo\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512",
+    "C:\\Users\\victo\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.14\\microsoft.windowsdesktop.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\victo\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.14\\microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\victo\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.14\\microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512"
   ],
   "logs": []
 }

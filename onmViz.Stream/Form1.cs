@@ -45,27 +45,6 @@ namespace onmViz.Stream
         private VideoCapture _Cam15;
         private VideoCapture _Cam16;
 
-        //Controle para alternar a exibicao das cameras na PictureBox maior
-        private int _ControleCamera1;
-        private int _ControleCamera2;
-        private int _ControleCamera3;
-        private int _ControleCamera4;
-        private int _ControleCamera5;
-        private int _ControleCamera6;
-        private int _ControleCamera7;
-        private int _ControleCamera8;
-        private int _ControleCamera9;
-        private int _ControleCamera10;
-        private int _ControleCamera11;
-        private int _ControleCamera12;
-        private int _ControleCamera13;
-        private int _ControleCamera14;
-        private int _ControleCamera15;
-        private int _ControleCamera16;
-
-
-
-
         public Form1()
         {
             InitializeComponent();
@@ -76,9 +55,7 @@ namespace onmViz.Stream
         }
 
         //TODO:Criar tabela de logs
-        //TODO:Implementar tela nova e botão e campo de texto para chamar api
         //TODO:Implementar layer com o nome de cada local
-        //TODO:Finalizar implementação validacao da abertura de conexao e obter stream da camera
 
         //Logica VideoCapture e PictureBoxes
         #region
@@ -102,7 +79,7 @@ namespace onmViz.Stream
                     _Cam1 = new VideoCapture(rtsp);
                     if (!_Cam1.IsOpened)
                     {
-                        MessageBox.Show($"Não foi possível conectar: {pBox.Device.IPAddress}");
+                        MessageBox.Show($"Nao foi possivel conectar: {pBox.Device.IPAddress}");
                         return;
                     }
                     _Cam1.ImageGrabbed += _Cam1_ImageGrabbed;
@@ -110,7 +87,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexao");
                 }
             }
             catch (Exception ex)
@@ -127,12 +104,6 @@ namespace onmViz.Stream
                 Image<Bgr, byte> scalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera1);
                 Camera1.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera1.Image = scalaPequena.ToBitmap();
-                if (_ControleCamera1 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox1);
-                    WideBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox1.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
@@ -144,10 +115,24 @@ namespace onmViz.Stream
         {
             if (_Cam1 != null)
             {
-                _ControleCamera1 = 1;
-                if (_ControleCamera2 == 1)
+                try
                 {
-                    _ControleCamera2 = 0;
+                    FetchAPI fetchAPI = new FetchAPI();
+                    fetchAPI.Show();
+                    List<Device> devices;
+                    PBox pBox;
+                    using (var db = new onmVizDBContext())
+                    {
+                        devices = db.Devices.ToList();
+                        pBox = db.PictureBoxes.Where(d => d.Position == 1).FirstOrDefault();
+                    }
+                    string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+                    fetchAPI.StartImageOne(rtsp);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Deu Problema: {ex.Message}");
                 }
             }
         }
@@ -171,7 +156,7 @@ namespace onmViz.Stream
                     _Cam2 = new VideoCapture(rtsp);
                     if (!_Cam2.IsOpened)
                     {
-                        MessageBox.Show($"Não foi possível conectar: {pBox.Device.IPAddress}");
+                        MessageBox.Show($"Nï¿½o foi possï¿½vel conectar: {pBox.Device.IPAddress}");
                         return;
                     }
                     _Cam2.ImageGrabbed += _Cam2_ImageGrabbed;
@@ -179,7 +164,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -192,32 +177,21 @@ namespace onmViz.Stream
         {
             try
             {
-                Mat mat = new Mat();
-                _Cam2.Retrieve(mat);
-                Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera2);
-                Camera2.SizeMode = PictureBoxSizeMode.StretchImage;
-                Camera2.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera2 == 1)
+                FetchAPI fetchAPI = new FetchAPI();
+                fetchAPI.Show();
+                List<Device> devices;
+                PBox pBox;
+                using (var db = new onmVizDBContext())
                 {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox1);
-                    WideBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox1.Image = scalaWide.ToBitmap();
+                    devices = db.Devices.ToList();
+                    pBox = db.PictureBoxes.Where(d => d.Position == 2).FirstOrDefault();
                 }
+                string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+                fetchAPI.StartImageOne(rtsp);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
-            }
-        }
-        private void Camera2_Click(object sender, EventArgs e)
-        {
-            if (_Cam2 != null)
-            {
-                _ControleCamera2 = 1;
-                if (_ControleCamera1 == 1)
-                {
-                    _ControleCamera1 = 0;
-                }
             }
         }
         #endregion
@@ -236,10 +210,6 @@ namespace onmViz.Stream
                 _Cam2.Dispose();
                 _Cam2 = null;
                 Camera2.Image = null;
-                if (WideBox1 != null)
-                {
-                    WideBox1.Image = null;
-                }
                 return;
             }
             button1.Text = "Parar Cameras";
@@ -262,7 +232,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 3).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 3");
+                        MessageBox.Show($"Erro ao estabelecer conexï¿½o: Camera 3");
                     }
                 }
                 if (pBox != null)
@@ -271,7 +241,7 @@ namespace onmViz.Stream
                     _Cam3 = new VideoCapture(rtsp);
                     if (!_Cam3.IsOpened)
                     {
-                        MessageBox.Show($"Não foi possível conectar: {pBox.Device.IPAddress}");
+                        MessageBox.Show($"Nï¿½o foi possï¿½vel conectar: {pBox.Device.IPAddress}");
                         return;
                     }
                     _Cam3.ImageGrabbed += _Cam3_ImageGrabbed; ;
@@ -279,7 +249,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -297,12 +267,6 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera3);
                 Camera3.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera3.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera3 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox2);
-                    WideBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox2.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
@@ -313,10 +277,24 @@ namespace onmViz.Stream
         {
             if (_Cam3 != null)
             {
-                _ControleCamera3 = 1;
-                if (_ControleCamera4 == 1)
+                try
                 {
-                    _ControleCamera4 = 0;
+                    FetchAPI fetchAPI = new FetchAPI();
+                    fetchAPI.Show();
+                    List<Device> devices;
+                    PBox pBox;
+                    using (var db = new onmVizDBContext())
+                    {
+                        devices = db.Devices.ToList();
+                        pBox = db.PictureBoxes.Where(d => d.Position == 3).FirstOrDefault();
+                    }
+                    string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+                    fetchAPI.StartImageOne(rtsp);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Deu Problema: {ex.Message}");
                 }
             }
         }
@@ -340,7 +318,7 @@ namespace onmViz.Stream
                     _Cam4 = new VideoCapture(rtsp);
                     if (!_Cam4.IsOpened)
                     {
-                        MessageBox.Show($"Não foi possível conectar: {pBox.Device.IPAddress}");
+                        MessageBox.Show($"Nï¿½o foi possï¿½vel conectar: {pBox.Device.IPAddress}");
                         return;
                     }
                     _Cam4.ImageGrabbed += _Cam4_ImageGrabbed;
@@ -348,7 +326,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -366,31 +344,10 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera4);
                 Camera4.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera4.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera4 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox2);
-                    WideBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox2.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
-            }
-        }
-        private void Camera4_Click(object sender, EventArgs e)
-        {
-            if (_Cam4 != null)
-            {
-                _ControleCamera4 = 1;
-                if (_ControleCamera3 == 1)
-                {
-                    _ControleCamera3 = 0;
-                }
-            }
-            else
-            {
-                MessageBox.Show($"Não foi possivl obter Stream");
             }
         }
         #endregion
@@ -409,10 +366,6 @@ namespace onmViz.Stream
                 _Cam4.Dispose();
                 _Cam4 = null;
                 Camera4.Image = null;
-                if (WideBox2 != null)
-                {
-                    WideBox2.Image = null;
-                }
                 return;
             }
             button2.Text = "Parar Cameras";
@@ -443,7 +396,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -461,12 +414,6 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera5);
                 Camera5.SizeMode = PictureBoxSizeMode.Zoom;
                 Camera5.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera5 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox3);
-                    WideBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox3.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
@@ -477,11 +424,17 @@ namespace onmViz.Stream
         {
             if (_Cam5 != null)
             {
-                _ControleCamera5 = 1;
-                if (_ControleCamera6 == 1)
+                FetchAPI fetchAPI = new FetchAPI();
+                fetchAPI.Show();
+                List<Device> devices;
+                PBox pBox;
+                using (var db = new onmVizDBContext())
                 {
-                    _ControleCamera6 = 0;
+                    devices = db.Devices.ToList();
+                    pBox = db.PictureBoxes.Where(d => d.Position == 5).FirstOrDefault();
                 }
+                string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+                fetchAPI.StartImageOne(rtsp);
             }
         }
         #endregion
@@ -497,10 +450,6 @@ namespace onmViz.Stream
                 {
                     devices = db.Devices.ToList();
                     pBox = db.PictureBoxes.Where(d => d.Position == 6).FirstOrDefault();
-                    //if (pBox == null)
-                    //{
-                    //    MessageBox.Show($"Erro ao estabelecer conexão");
-                    //}
                 }
                 if (pBox != null)
                 {
@@ -511,7 +460,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -528,27 +477,10 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera6);
                 Camera6.SizeMode = PictureBoxSizeMode.Zoom;
                 Camera6.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera6 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox3);
-                    WideBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox3.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
-            }
-        }
-        private void Camera6_Click(object sender, EventArgs e)
-        {
-            if (_Cam6 != null)
-            {
-                _ControleCamera6 = 1;
-                if (_ControleCamera5 == 1)
-                {
-                    _ControleCamera5 = 0;
-                }
             }
         }
         #endregion
@@ -567,10 +499,6 @@ namespace onmViz.Stream
                 _Cam6.Dispose();
                 _Cam6 = null;
                 Camera6.Image = null;
-                if (WideBox3 != null)
-                {
-                    WideBox3.Image = null;
-                }
                 return;
             }
             button3.Text = "Parar Cameras";
@@ -591,10 +519,6 @@ namespace onmViz.Stream
                 {
                     devices = db.Devices.ToList();
                     pBox = db.PictureBoxes.Where(d => d.Position == 7).FirstOrDefault();
-                    if (pBox == null)
-                    {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 7");
-                    }
                 }
                 if (pBox != null)
                 {
@@ -605,7 +529,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexao");
                 }
             }
             catch (Exception ex)
@@ -622,12 +546,6 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera7);
                 Camera7.SizeMode = PictureBoxSizeMode.Zoom;
                 Camera7.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera7 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox4);
-                    WideBox4.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox4.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
@@ -636,14 +554,17 @@ namespace onmViz.Stream
         }
         private void Camera7_Click(object sender, EventArgs e)
         {
-            if (_Cam7 != null)
+            FetchAPI fetchAPI = new FetchAPI();
+            fetchAPI.Show();
+            List<Device> devices;
+            PBox pBox;
+            using (var db = new onmVizDBContext())
             {
-                _ControleCamera7 = 1;
-                if (_ControleCamera8 == 1)
-                {
-                    _ControleCamera8 = 0;
-                }
+                devices = db.Devices.ToList();
+                pBox = db.PictureBoxes.Where(d => d.Position == 7).FirstOrDefault();
             }
+            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
         //Camera8
@@ -668,7 +589,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -686,27 +607,10 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera8);
                 Camera8.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera8.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera8 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox4);
-                    WideBox4.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox4.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
-            }
-        }
-        private void Camera8_Click(object sender, EventArgs e)
-        {
-            if (_Cam8 != null)
-            {
-                _ControleCamera8 = 1;
-                if (_ControleCamera7 == 1)
-                {
-                    _ControleCamera7 = 0;
-                }
             }
         }
         #endregion
@@ -725,10 +629,6 @@ namespace onmViz.Stream
                 _Cam8.Dispose();
                 _Cam8 = null;
                 Camera8.Image = null;
-                if (WideBox4 != null)
-                {
-                    WideBox4.Image = null;
-                }
                 return;
             }
             button4.Text = "Parar Cameras";
@@ -751,7 +651,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 9).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
+                        MessageBox.Show($"Erro ao estabelecer conexï¿½o: Camera 8");
                     }
                 }
                 if (pBox != null)
@@ -763,7 +663,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -781,12 +681,6 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera9);
                 Camera9.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera9.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera9 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox5);
-                    WideBox5.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox5.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
@@ -795,14 +689,17 @@ namespace onmViz.Stream
         }
         private void Camera9_Click(object sender, EventArgs e)
         {
-            if (_Cam9 != null)
+            FetchAPI fetchAPI = new FetchAPI();
+            fetchAPI.Show();
+            List<Device> devices;
+            PBox pBox;
+            using (var db = new onmVizDBContext())
             {
-                _ControleCamera9 = 1;
-                if (_ControleCamera10 == 1)
-                {
-                    _ControleCamera10 = 0;
-                }
+                devices = db.Devices.ToList();
+                pBox = db.PictureBoxes.Where(d => d.Position == 9).FirstOrDefault();
             }
+            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
         //Camera10
@@ -819,7 +716,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 10).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
+                        MessageBox.Show($"Erro ao estabelecer conexï¿½o: Camera 8");
                     }
                 }
                 if (pBox != null)
@@ -831,7 +728,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -848,28 +745,10 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera10);
                 Camera10.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera10.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera10 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox5);
-                    WideBox5.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox5.Image = scalaWide.ToBitmap();
-                }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
-            }
-        }
-        private void Camera10_Click(object sender, EventArgs e)
-        {
-            if (_Cam10 != null)
-            {
-                _ControleCamera10 = 1;
-                if (_ControleCamera9 == 1)
-                {
-                    _ControleCamera9 = 0;
-                }
             }
         }
         #endregion
@@ -888,10 +767,6 @@ namespace onmViz.Stream
                 _Cam10.Dispose();
                 _Cam10 = null;
                 Camera10.Image = null;
-                if (WideBox5 != null)
-                {
-                    WideBox5.Image = null;
-                }
                 return;
             }
             button5.Text = "Parar Cameras";
@@ -914,7 +789,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 11).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
+                        MessageBox.Show($"Erro ao estabelecer conexï¿½o: Camera 8");
                     }
                 }
                 if (pBox != null)
@@ -926,7 +801,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -944,12 +819,6 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera11);
                 Camera11.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera11.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera11 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox6);
-                    WideBox6.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox6.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
@@ -958,14 +827,17 @@ namespace onmViz.Stream
         }
         private void Camera11_Click(object sender, EventArgs e)
         {
-            if (_Cam11 != null)
+            FetchAPI fetchAPI = new FetchAPI();
+            fetchAPI.Show();
+            List<Device> devices;
+            PBox pBox;
+            using (var db = new onmVizDBContext())
             {
-                _ControleCamera11 = 1;
-                if (_ControleCamera12 == 1)
-                {
-                    _ControleCamera12 = 0;
-                }
+                devices = db.Devices.ToList();
+                pBox = db.PictureBoxes.Where(d => d.Position == 11).FirstOrDefault();
             }
+            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
 
@@ -983,7 +855,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 12).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
+                        MessageBox.Show($"Erro ao estabelecer conexï¿½o: Camera 8");
                     }
                 }
                 if (pBox != null)
@@ -995,7 +867,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -1013,27 +885,10 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera12);
                 Camera12.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera12.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera12 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox6);
-                    WideBox6.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox6.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
-            }
-        }
-        private void Camera12_Click(object sender, EventArgs e)
-        {
-            if (_Cam12 != null)
-            {
-                _ControleCamera12 = 1;
-                if (_ControleCamera11 == 1)
-                {
-                    _ControleCamera11 = 0;
-                }
             }
         }
         #endregion
@@ -1052,10 +907,6 @@ namespace onmViz.Stream
                 _Cam12.Dispose();
                 _Cam12 = null;
                 Camera12.Image = null;
-                if (WideBox6 != null)
-                {
-                    WideBox6.Image = null;
-                }
                 return;
             }
             button6.Text = "Parar Cameras";
@@ -1078,7 +929,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 13).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
+                        MessageBox.Show($"Erro ao estabelecer conexï¿½o: Camera 8");
                     }
                 }
                 if (pBox != null)
@@ -1090,7 +941,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -1108,12 +959,6 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera13);
                 Camera13.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera13.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera13 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox7);
-                    WideBox7.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox7.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
@@ -1122,14 +967,17 @@ namespace onmViz.Stream
         }
         private void Camera13_Click(object sender, EventArgs e)
         {
-            if (_Cam13 != null)
+            FetchAPI fetchAPI = new FetchAPI();
+            fetchAPI.Show();
+            List<Device> devices;
+            PBox pBox;
+            using (var db = new onmVizDBContext())
             {
-                _ControleCamera13 = 1;
-                if (_ControleCamera14 == 1)
-                {
-                    _ControleCamera14 = 0;
-                }
+                devices = db.Devices.ToList();
+                pBox = db.PictureBoxes.Where(d => d.Position == 13).FirstOrDefault();
             }
+            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
 
@@ -1147,7 +995,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 14).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
+                        MessageBox.Show($"Erro ao estabelecer conexï¿½o: Camera 8");
                     }
                 }
                 if (pBox != null)
@@ -1159,7 +1007,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -1177,27 +1025,10 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera14);
                 Camera14.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera14.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera14 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox7);
-                    WideBox7.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox7.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
-            }
-        }
-        private void Camera14_Click(object sender, EventArgs e)
-        {
-            if (_Cam14 != null)
-            {
-                _ControleCamera14 = 1;
-                if (_ControleCamera13 == 1)
-                {
-                    _ControleCamera13 = 0;
-                }
             }
         }
         #endregion
@@ -1216,10 +1047,6 @@ namespace onmViz.Stream
                 _Cam14.Dispose();
                 _Cam14 = null;
                 Camera14.Image = null;
-                if (WideBox7 != null)
-                {
-                    WideBox7.Image = null;
-                }
                 return;
             }
             button7.Text = "Parar Cameras";
@@ -1243,7 +1070,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 15).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
+                        MessageBox.Show($"Erro ao estabelecer conexï¿½o: Camera 8");
                     }
                 }
                 if (pBox != null)
@@ -1255,7 +1082,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -1273,12 +1100,6 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera15);
                 Camera15.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera15.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera15 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox8);
-                    WideBox8.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox8.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
@@ -1287,14 +1108,17 @@ namespace onmViz.Stream
         }
         private void Camera15_Click(object sender, EventArgs e)
         {
-            if (_Cam15 != null)
+            FetchAPI fetchAPI = new FetchAPI();
+            fetchAPI.Show();
+            List<Device> devices;
+            PBox pBox;
+            using (var db = new onmVizDBContext())
             {
-                _ControleCamera15 = 1;
-                if (_ControleCamera16 == 1)
-                {
-                    _ControleCamera16 = 0;
-                }
+                devices = db.Devices.ToList();
+                pBox = db.PictureBoxes.Where(d => d.Position == 15).FirstOrDefault();
             }
+            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
 
@@ -1312,7 +1136,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 16).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conexão: Camera 8");
+                        MessageBox.Show($"Erro ao estabelecer conexï¿½o: Camera 8");
                     }
                 }
                 if (pBox != null)
@@ -1324,7 +1148,7 @@ namespace onmViz.Stream
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao estabelecer conexão");
+                    MessageBox.Show("Erro ao estabelecer conexï¿½o");
                 }
             }
             catch (Exception ex)
@@ -1342,27 +1166,10 @@ namespace onmViz.Stream
                 Image<Bgr, byte> escalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera16);
                 Camera16.SizeMode = PictureBoxSizeMode.StretchImage;
                 Camera16.Image = escalaPequena.ToBitmap();
-                if (_ControleCamera16 == 1)
-                {
-                    Image<Bgr, byte> scalaWide = ScaleStreaming(mat.ToImage<Bgr, byte>(), WideBox8);
-                    WideBox8.SizeMode = PictureBoxSizeMode.StretchImage;
-                    WideBox8.Image = scalaWide.ToBitmap();
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
-            }
-        }
-        private void Camera16_Click(object sender, EventArgs e)
-        {
-            if (_Cam16 != null)
-            {
-                _ControleCamera16 = 1;
-                if (_ControleCamera15 == 1)
-                {
-                    _ControleCamera15 = 0;
-                }
             }
         }
         #endregion
@@ -1381,10 +1188,6 @@ namespace onmViz.Stream
                 _Cam16.Dispose();
                 _Cam16 = null;
                 Camera16.Image = null;
-                if (WideBox8 != null)
-                {
-                    WideBox8.Image = null;
-                }
                 return;
             }
             button8.Text = "Parar Cameras";
@@ -1394,8 +1197,7 @@ namespace onmViz.Stream
             _ThreadCamera16.Start();
         }
 
-        //Funçoes utilitarias
-        #region
+        //Funcoes utilitarias
         private Image<Bgr, byte> ScaleStreaming(Image<Bgr, byte> image, PictureBox pic)
         {
             float aspectRatio = image.Width / image.Height;
@@ -1415,260 +1217,5 @@ namespace onmViz.Stream
         }
         #endregion
 
-        #endregion
-
-        private async void WideBox1_DoubleClick(object sender, EventArgs e)
-        {
-            FetchAPI fetchAPI = new FetchAPI();
-            ComboBox combo1 = fetchAPI.comboBox1;
-            if (WideBox1.Image == null)
-            {
-                return;
-            }
-            if (_ControleCamera1 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 1).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-            if (_ControleCamera2 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 2).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-        }
-        private void WideBox2_DoubleClick(object sender, EventArgs e)
-        {
-            FetchAPI fetchAPI = new FetchAPI();
-            ComboBox combo1 = fetchAPI.comboBox1;
-            if (WideBox2.Image == null)
-            {
-                return;
-            }
-            if (_ControleCamera3 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 3).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-            if (_ControleCamera4 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 4).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-        }
-        private void WideBox3_DoubleClick(object sender, EventArgs e)
-        {
-            FetchAPI fetchAPI = new FetchAPI();
-            ComboBox combo1 = fetchAPI.comboBox1;
-            if (WideBox3.Image == null)
-            {
-                return;
-            }
-            if (_ControleCamera5 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 5).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-            if (_ControleCamera6 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 6).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-        }
-
-        private void WideBox4_DoubleClick(object sender, EventArgs e)
-        {
-            FetchAPI fetchAPI = new FetchAPI();
-            ComboBox combo1 = fetchAPI.comboBox1;
-            if (WideBox4.Image == null)
-            {
-                return;
-            }
-            if (_ControleCamera7 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 7).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-            if (_ControleCamera8 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 8).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-        }
-
-        private void WideBox5_DoubleClick(object sender, EventArgs e)
-        {
-            FetchAPI fetchAPI = new FetchAPI();
-            ComboBox combo1 = fetchAPI.comboBox1;
-            if (WideBox5.Image == null)
-            {
-                return;
-            }
-            if (_ControleCamera9 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 9).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-            if (_ControleCamera10 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 10).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-        }
-
-        private void WideBox6_DoubleClick(object sender, EventArgs e)
-        {
-            FetchAPI fetchAPI = new FetchAPI();
-            ComboBox combo1 = fetchAPI.comboBox1;
-            if (WideBox6.Image == null)
-            {
-                return;
-            }
-            if (_ControleCamera11 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 11).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-            if (_ControleCamera12 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 12).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-        }
-
-        private void WideBox7_DoubleClick(object sender, EventArgs e)
-        {
-            FetchAPI fetchAPI = new FetchAPI();
-            ComboBox combo1 = fetchAPI.comboBox1;
-            if (WideBox7.Image == null)
-            {
-                return;
-            }
-            if (_ControleCamera13 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 13).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-            if (_ControleCamera14 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 14).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-        }
-
-        private void WideBox8_DoubleClick(object sender, EventArgs e)
-        {
-            FetchAPI fetchAPI = new FetchAPI();
-            ComboBox combo1 = fetchAPI.comboBox1;
-            if (WideBox8.Image == null)
-            {
-                return;
-            }
-            if (_ControleCamera15 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 15).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-            if (_ControleCamera16 == 1)
-            {
-                fetchAPI.Show();
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.Where(d => d.Position == 16).FirstOrDefault();
-                    combo1.Text = pBox.PictureBoxName;
-                }
-                return;
-            }
-        }
     }
 }

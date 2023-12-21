@@ -9,6 +9,7 @@ C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Debug\net7.0\onmViz.DAL
 C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Debug\net7.0\onmViz.DAL.AssemblyInfoInputs.cache
 C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Debug\net7.0\onmViz.DAL.AssemblyInfo.cs
 C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Debug\net7.0\onmViz.DAL.csproj.CoreCompileInputs.cache
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Debug\net7.0\onmViz.DAL.sourcelink.json
 C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Debug\net7.0\onmViz.DAL.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Debug\net7.0\refint\onmViz.DAL.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Debug\net7.0\onmViz.DAL.pdb

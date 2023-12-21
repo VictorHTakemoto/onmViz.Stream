@@ -1,6 +1,7 @@
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\onmViz.Stream.exe
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\appsettings.json
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\params.json
+C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\paramsUrl.json
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\onmViz.Stream.deps.json
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\onmViz.Stream.runtimeconfig.json
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\onmViz.Stream.dll
@@ -53,6 +54,7 @@ C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\Microsoft.IdentityModel.Tokens.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\Microsoft.SqlServer.Server.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\Newtonsoft.Json.dll
+C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\RestSharp.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\System.Composition.Hosting.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\System.Composition.Runtime.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\System.IdentityModel.Tokens.Jwt.dll
@@ -98,17 +100,18 @@ C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\onmViz.DAL.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\onmViz.DAL.pdb
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.csproj.AssemblyReference.cache
+C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.FetchAPI.resources
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.Form1.resources
+C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.Properties.Resources.resources
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.csproj.GenerateResource.cache
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.AssemblyInfoInputs.cache
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.AssemblyInfo.cs
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.csproj.CoreCompileInputs.cache
+C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.sourcelink.json
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.csproj.CopyComplete
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\refint\onmViz.Stream.dll
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.pdb
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.genruntimeconfig.cache
 C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\ref\onmViz.Stream.dll
-C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\obj\Debug\net7.0-windows\onmViz.Stream.FetchAPI.resources
-C:\Users\victo\source\repos\StreamCapture\onmViz.Stream\bin\Debug\net7.0-windows\RestSharp.dll

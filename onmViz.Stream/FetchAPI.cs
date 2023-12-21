@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using onmViz.DAL.Model;
 using onmViz.DAL.Model.Entity;
@@ -10,6 +13,8 @@ namespace onmViz.Stream
 {
     public partial class FetchAPI : Form
     {
+        private VideoCapture _videoCapture1;
+
         public FetchAPI()
         {
             InitializeComponent();
@@ -43,6 +48,10 @@ namespace onmViz.Stream
 
         private void CloseBtn_Click(object sender, EventArgs e)
         {
+            _videoCapture1.ImageGrabbed -= _videoCapture1_ImageGrabbed;
+            _videoCapture1.Stop();
+            _videoCapture1.Dispose();
+            _videoCapture1 = null;
             this.Close();
         }
 
@@ -73,14 +82,14 @@ namespace onmViz.Stream
         {
             try
             {
-                string paramsJson = AppContext.BaseDirectory + "\\params.json";
+                string paramsJson = AppContext.BaseDirectory + "\\paramsUrl.json";
                 JObject globalParams = JObject.Parse(File.ReadAllText(paramsJson));
                 var options = new RestClientOptions($"{globalParams["Http"]}{globalParams["Porta"]}")
                 {
                     MaxTimeout = -1,
                 };
                 var client = new RestClient(options);
-                var request = new RestRequest($"/api/Operacao/ProcessarManual?IDRecurso={id}&placa={placa}", Method.Post);
+                var request = new RestRequest($"/api/Operacao/PlacaManual?IDRecurso={id}&placa={placa}", Method.Post);
 
                 RestResponse response = await client.ExecuteAsync(request);
                 //MessageBox.Show($"Teste: {response.Content}");
@@ -92,6 +101,11 @@ namespace onmViz.Stream
                                     $"Mensagem: {resultado.mensagem}");
                     return;
                 }
+                else
+                {
+                    MessageBox.Show("Deu erro");
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -99,5 +113,56 @@ namespace onmViz.Stream
             }
         }
 
+        public void StartImageOne(string rtsp)
+        {
+            try
+            {
+                if (rtsp != null)
+                {
+                    _videoCapture1 = new VideoCapture(rtsp);
+                    if (!_videoCapture1.IsOpened)
+                    {
+                        MessageBox.Show($"Nao foi possivel conectar");
+                        return;
+                    }
+                    _videoCapture1.ImageGrabbed += _videoCapture1_ImageGrabbed;
+                    _videoCapture1.Start();
+                }
+                else
+                {
+                    MessageBox.Show("Erro ao estabelecer conexao");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Deu Problema: {ex.Message}");
+            }
+        }
+
+        private void _videoCapture1_ImageGrabbed(object? sender, EventArgs e)
+        {
+            Mat mat = new Mat();
+            _videoCapture1.Retrieve(mat);
+            Image<Bgr, byte> scale = ScaleImage(mat.ToImage<Bgr, byte>(), pictureBox1);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.Image = scale.ToBitmap();
+        }
+        private Image<Bgr, byte> ScaleImage(Image<Bgr, byte> image, PictureBox pic)
+        {
+            float aspectRatio = image.Width / image.Height;
+            int newWidth, newHeight;
+
+            if (aspectRatio > 1)
+            {
+                newWidth = pic.Width;
+                newHeight = (int)(pic.Width / aspectRatio);
+            }
+            else
+            {
+                newHeight = pic.Height;
+                newWidth = (int)(pic.Height * aspectRatio);
+            }
+            return image.Resize(newWidth, newHeight, Inter.Linear);
+        }
     }
 }
