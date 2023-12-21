@@ -52,7 +52,6 @@
             button6 = new Button();
             button7 = new Button();
             button8 = new Button();
-            OpManual = new Button();
             ((System.ComponentModel.ISupportInitialize)Camera1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Camera2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Camera3).BeginInit();
@@ -286,23 +285,11 @@
             button8.UseVisualStyleBackColor = true;
             button8.Click += button8_Click;
             // 
-            // OpManual
-            // 
-            OpManual.Enabled = false;
-            OpManual.Location = new Point(226, 5);
-            OpManual.Name = "OpManual";
-            OpManual.Size = new Size(153, 29);
-            OpManual.TabIndex = 32;
-            OpManual.Text = "Operação Manual";
-            OpManual.UseVisualStyleBackColor = true;
-            OpManual.Visible = false;
-            // 
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.GradientActiveCaption;
             ClientSize = new Size(1902, 1033);
-            Controls.Add(OpManual);
             Controls.Add(button8);
             Controls.Add(button7);
             Controls.Add(button6);
@@ -330,7 +317,6 @@
             Name = "Form1";
             Text = "onmViz";
             WindowState = FormWindowState.Maximized;
-            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)Camera1).EndInit();
             ((System.ComponentModel.ISupportInitialize)Camera2).EndInit();
             ((System.ComponentModel.ISupportInitialize)Camera3).EndInit();
@@ -376,6 +362,5 @@
         private Button button6;
         private Button button7;
         private Button button8;
-        private Button OpManual;
     }
 }

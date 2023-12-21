@@ -50,15 +50,8 @@ namespace onmViz.Stream
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-        }
-
         //TODO:Criar tabela de logs
         //TODO:Implementar layer com o nome de cada local
-
-        //Logica VideoCapture e PictureBoxes
-        #region
 
         //Camera1
         #region
@@ -177,17 +170,11 @@ namespace onmViz.Stream
         {
             try
             {
-                FetchAPI fetchAPI = new FetchAPI();
-                fetchAPI.Show();
-                List<Device> devices;
-                PBox pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    devices = db.Devices.ToList();
-                    pBox = db.PictureBoxes.Where(d => d.Position == 2).FirstOrDefault();
-                }
-                string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
-                fetchAPI.StartImageOne(rtsp);
+                Mat mat = new Mat();
+                _Cam2.Retrieve(mat);
+                Image<Bgr, byte> scalaPequena = ScaleStreaming(mat.ToImage<Bgr, byte>(), Camera1);
+                Camera2.SizeMode = PictureBoxSizeMode.StretchImage;
+                Camera2.Image = scalaPequena.ToBitmap();
             }
             catch (Exception ex)
             {
@@ -1215,7 +1202,5 @@ namespace onmViz.Stream
             }
             return image.Resize(newWidth, newHeight, Inter.Linear);
         }
-        #endregion
-
     }
 }
