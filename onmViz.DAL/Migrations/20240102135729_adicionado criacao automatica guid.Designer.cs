@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using onmViz.DAL.Model;
 
@@ -11,9 +12,11 @@ using onmViz.DAL.Model;
 namespace onmViz.DAL.Migrations
 {
     [DbContext(typeof(onmVizDBContext))]
-    partial class onmVizDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240102135729_adicionado criacao automatica guid")]
+    partial class adicionadocriacaoautomaticaguid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,72 +63,6 @@ namespace onmViz.DAL.Migrations
                     b.HasKey("DeviceId");
 
                     b.ToTable("Devices");
-                });
-
-            modelBuilder.Entity("onmViz.DAL.Model.Entity.IntegrationLog", b =>
-                {
-                    b.Property<int>("IntregrationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IntregrationId"));
-
-                    b.Property<string>("Info")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("IntegrationDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("JustificationLogId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IntregrationId");
-
-                    b.HasIndex("JustificationLogId")
-                        .IsUnique();
-
-                    b.ToTable("IntegrationLogs");
-                });
-
-            modelBuilder.Entity("onmViz.DAL.Model.Entity.JustificationLog", b =>
-                {
-                    b.Property<int>("JustificationLogId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("JustificationLogId"));
-
-                    b.Property<DateTime>("JustificarionDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("JustificationMessage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LicensePlate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ScaleBridge")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("User")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("JustificationLogId");
-
-                    b.ToTable("JustificationLogs");
                 });
 
             modelBuilder.Entity("onmViz.DAL.Model.Entity.Log", b =>
@@ -186,17 +123,6 @@ namespace onmViz.DAL.Migrations
                     b.ToTable("PictureBoxes");
                 });
 
-            modelBuilder.Entity("onmViz.DAL.Model.Entity.IntegrationLog", b =>
-                {
-                    b.HasOne("onmViz.DAL.Model.Entity.JustificationLog", "JustificationLog")
-                        .WithOne("IntegrationLog")
-                        .HasForeignKey("onmViz.DAL.Model.Entity.IntegrationLog", "JustificationLogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("JustificationLog");
-                });
-
             modelBuilder.Entity("onmViz.DAL.Model.Entity.PBox", b =>
                 {
                     b.HasOne("onmViz.DAL.Model.Entity.Device", "Device")
@@ -206,12 +132,6 @@ namespace onmViz.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Device");
-                });
-
-            modelBuilder.Entity("onmViz.DAL.Model.Entity.JustificationLog", b =>
-                {
-                    b.Navigation("IntegrationLog")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

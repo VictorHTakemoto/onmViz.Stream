@@ -128,6 +128,7 @@
             Camera7.Size = new Size(405, 236);
             Camera7.TabIndex = 7;
             Camera7.TabStop = false;
+            Camera7.Click += Camera7_Click;
             // 
             // Camera8
             // 

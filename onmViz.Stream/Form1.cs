@@ -50,7 +50,6 @@ namespace onmViz.Stream
             InitializeComponent();
         }
 
-        //TODO:Criar tabela de logs
         //TODO:Implementar layer com o nome de cada local
 
         //Camera1
@@ -113,6 +112,8 @@ namespace onmViz.Stream
                     FetchAPI fetchAPI = new FetchAPI();
                     fetchAPI.Show();
                     List<Device> devices;
+
+                    int recursoId;
                     PBox pBox;
                     using (var db = new onmVizDBContext())
                     {
@@ -121,7 +122,7 @@ namespace onmViz.Stream
                     }
                     string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     fetchAPI.StartImageOne(rtsp);
-
+                    fetchAPI.textBox2.Text = pBox.PictureBoxName;
                 }
                 catch (Exception ex)
                 {
@@ -149,7 +150,7 @@ namespace onmViz.Stream
                     _Cam2 = new VideoCapture(rtsp);
                     if (!_Cam2.IsOpened)
                     {
-                        MessageBox.Show($"N�o foi poss�vel conectar: {pBox.Device.IPAddress}");
+                        MessageBox.Show($"Nao foi possivel conectar: {pBox.Device.IPAddress}");
                         return;
                     }
                     _Cam2.ImageGrabbed += _Cam2_ImageGrabbed;
@@ -219,7 +220,7 @@ namespace onmViz.Stream
                     pBox = db.PictureBoxes.Where(d => d.Position == 3).FirstOrDefault();
                     if (pBox == null)
                     {
-                        MessageBox.Show($"Erro ao estabelecer conex�o: Camera 3");
+                        MessageBox.Show($"Erro ao estabelecer conexao: Camera 3");
                     }
                 }
                 if (pBox != null)
@@ -228,7 +229,7 @@ namespace onmViz.Stream
                     _Cam3 = new VideoCapture(rtsp);
                     if (!_Cam3.IsOpened)
                     {
-                        MessageBox.Show($"N�o foi poss�vel conectar: {pBox.Device.IPAddress}");
+                        MessageBox.Show($"Nao foi possivel conectar: {pBox.Device.IPAddress}");
                         return;
                     }
                     _Cam3.ImageGrabbed += _Cam3_ImageGrabbed; ;
@@ -277,6 +278,7 @@ namespace onmViz.Stream
                     }
                     string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                     fetchAPI.StartImageOne(rtsp);
+                    fetchAPI.textBox2.Text = pBox.PictureBoxName;
 
                 }
                 catch (Exception ex)
@@ -305,7 +307,7 @@ namespace onmViz.Stream
                     _Cam4 = new VideoCapture(rtsp);
                     if (!_Cam4.IsOpened)
                     {
-                        MessageBox.Show($"N�o foi poss�vel conectar: {pBox.Device.IPAddress}");
+                        MessageBox.Show($"Nao foi possivel conectar: {pBox.Device.IPAddress}");
                         return;
                     }
                     _Cam4.ImageGrabbed += _Cam4_ImageGrabbed;
@@ -422,6 +424,7 @@ namespace onmViz.Stream
                 }
                 string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
                 fetchAPI.StartImageOne(rtsp);
+                fetchAPI.textBox2.Text = pBox.PictureBoxName;
             }
         }
         #endregion
@@ -541,17 +544,28 @@ namespace onmViz.Stream
         }
         private void Camera7_Click(object sender, EventArgs e)
         {
-            FetchAPI fetchAPI = new FetchAPI();
-            fetchAPI.Show();
-            List<Device> devices;
-            PBox pBox;
-            using (var db = new onmVizDBContext())
+            if(_Cam7 != null)
             {
-                devices = db.Devices.ToList();
-                pBox = db.PictureBoxes.Where(d => d.Position == 7).FirstOrDefault();
+                try
+                {
+                    FetchAPI fetchAPI = new FetchAPI();
+                    fetchAPI.Show();
+                    List<Device> devices;
+                    PBox pBox;
+                    using (var db = new onmVizDBContext())
+                    {
+                        devices = db.Devices.ToList();
+                        pBox = db.PictureBoxes.Where(d => d.Position == 7).FirstOrDefault();
+                    }
+                    string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+                    fetchAPI.StartImageOne(rtsp);
+                    fetchAPI.textBox2.Text = pBox.PictureBoxName;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Deu Problema: {ex.Message}");
+                }
             }
-            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
-            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
         //Camera8
@@ -676,17 +690,28 @@ namespace onmViz.Stream
         }
         private void Camera9_Click(object sender, EventArgs e)
         {
-            FetchAPI fetchAPI = new FetchAPI();
-            fetchAPI.Show();
-            List<Device> devices;
-            PBox pBox;
-            using (var db = new onmVizDBContext())
+            if(Camera9 != null)
             {
-                devices = db.Devices.ToList();
-                pBox = db.PictureBoxes.Where(d => d.Position == 9).FirstOrDefault();
+                try
+                {
+                    FetchAPI fetchAPI = new FetchAPI();
+                    fetchAPI.Show();
+                    List<Device> devices;
+                    PBox pBox;
+                    using (var db = new onmVizDBContext())
+                    {
+                        devices = db.Devices.ToList();
+                        pBox = db.PictureBoxes.Where(d => d.Position == 9).FirstOrDefault();
+                    }
+                    string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+                    fetchAPI.StartImageOne(rtsp);
+                    fetchAPI.textBox2.Text = pBox.PictureBoxName;
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"Deu Problema: {ex.Message}");
+                }
             }
-            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
-            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
         //Camera10
@@ -814,17 +839,28 @@ namespace onmViz.Stream
         }
         private void Camera11_Click(object sender, EventArgs e)
         {
-            FetchAPI fetchAPI = new FetchAPI();
-            fetchAPI.Show();
-            List<Device> devices;
-            PBox pBox;
-            using (var db = new onmVizDBContext())
+            if(Camera11 != null) 
             {
-                devices = db.Devices.ToList();
-                pBox = db.PictureBoxes.Where(d => d.Position == 11).FirstOrDefault();
+                try
+                {
+                    FetchAPI fetchAPI = new FetchAPI();
+                    fetchAPI.Show();
+                    List<Device> devices;
+                    PBox pBox;
+                    using (var db = new onmVizDBContext())
+                    {
+                        devices = db.Devices.ToList();
+                        pBox = db.PictureBoxes.Where(d => d.Position == 11).FirstOrDefault();
+                    }
+                    string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+                    fetchAPI.StartImageOne(rtsp);
+                    fetchAPI.textBox2.Text = pBox.PictureBoxName;
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"Deu Problema: {ex.Message}");
+                }
             }
-            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
-            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
 
@@ -954,17 +990,28 @@ namespace onmViz.Stream
         }
         private void Camera13_Click(object sender, EventArgs e)
         {
-            FetchAPI fetchAPI = new FetchAPI();
-            fetchAPI.Show();
-            List<Device> devices;
-            PBox pBox;
-            using (var db = new onmVizDBContext())
+            if(_Cam13 != null)
             {
-                devices = db.Devices.ToList();
-                pBox = db.PictureBoxes.Where(d => d.Position == 13).FirstOrDefault();
+                try
+                {
+                    FetchAPI fetchAPI = new FetchAPI();
+                    fetchAPI.Show();
+                    List<Device> devices;
+                    PBox pBox;
+                    using (var db = new onmVizDBContext())
+                    {
+                        devices = db.Devices.ToList();
+                        pBox = db.PictureBoxes.Where(d => d.Position == 13).FirstOrDefault();
+                    }
+                    string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+                    fetchAPI.StartImageOne(rtsp);
+                    fetchAPI.textBox2.Text = pBox.PictureBoxName;
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"Deu Problema: {ex.Message}");
+                }
             }
-            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
-            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
 
@@ -1095,17 +1142,28 @@ namespace onmViz.Stream
         }
         private void Camera15_Click(object sender, EventArgs e)
         {
-            FetchAPI fetchAPI = new FetchAPI();
-            fetchAPI.Show();
-            List<Device> devices;
-            PBox pBox;
-            using (var db = new onmVizDBContext())
+            if(_Cam15 != null)
             {
-                devices = db.Devices.ToList();
-                pBox = db.PictureBoxes.Where(d => d.Position == 15).FirstOrDefault();
+                try
+                {
+                    FetchAPI fetchAPI = new FetchAPI();
+                    fetchAPI.Show();
+                    List<Device> devices;
+                    PBox pBox;
+                    using (var db = new onmVizDBContext())
+                    {
+                        devices = db.Devices.ToList();
+                        pBox = db.PictureBoxes.Where(d => d.Position == 15).FirstOrDefault();
+                    }
+                    string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
+                    fetchAPI.StartImageOne(rtsp);
+                    fetchAPI.textBox2.Text = pBox.PictureBoxName;
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"Deu Problema: {ex.Message}");
+                }
             }
-            string rtsp = $"rtsp://{pBox.Device.UserName}:{pBox.Device.Password}@{pBox.Device.IPAddress}:{pBox.Device.RTSPPort}{pBox.Device.RTSPPath}";
-            fetchAPI.StartImageOne(rtsp);
         }
         #endregion
 
@@ -1184,7 +1242,7 @@ namespace onmViz.Stream
             _ThreadCamera16.Start();
         }
 
-        //Funcoes utilitarias
+        //Funcao para escalar imagem
         private Image<Bgr, byte> ScaleStreaming(Image<Bgr, byte> image, PictureBox pic)
         {
             float aspectRatio = image.Width / image.Height;

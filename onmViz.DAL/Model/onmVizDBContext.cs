@@ -34,5 +34,8 @@ namespace onmViz.DAL.Model
         }
         public DbSet<PBox> PictureBoxes { get; set; }
         public DbSet<Device> Devices { get; set; }
+        public DbSet<Log> Logs { get; set; }
+        public DbSet<JustificationLog> JustificationLogs { get; set; }
+        public DbSet<IntegrationLog> IntegrationLogs { get; set; }
     }
 }

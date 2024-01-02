@@ -8,11 +8,16 @@ using onmViz.DAL.Model.Entity;
 using RestSharp;
 using System.Data;
 using File = System.IO.File;
+using System;
+using System.Security.Principal;
+using Microsoft.IdentityModel.Tokens;
 
 namespace onmViz.Stream
 {
     public partial class FetchAPI : Form
     {
+        public ResponseAPI responseAPI = new();
+
         private VideoCapture _videoCapture1;
 
         public FetchAPI()
@@ -21,29 +26,6 @@ namespace onmViz.Stream
         }
         private void FetchAPI_Load(object sender, EventArgs e)
         {
-            InitComboBox();
-        }
-        public void InitComboBox()
-        {
-            try
-            {
-                List<PBox> pBox;
-                using (var db = new onmVizDBContext())
-                {
-                    pBox = db.PictureBoxes.ToList();
-                }
-                if (pBox != null)
-                {
-                    foreach (var PB in pBox)
-                    {
-                        comboBox1.Items.Add(PB.PictureBoxName);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Deu erro: {ex.Message}");
-            }
         }
 
         private void CloseBtn_Click(object sender, EventArgs e)
@@ -57,26 +39,36 @@ namespace onmViz.Stream
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox1.Text))
+            var message = "Teste";
+            WindowsIdentity currentIdentity = WindowsIdentity.GetCurrent();
+            if (!string.IsNullOrEmpty(textBox1.Text))
             {
-                MessageBox.Show($"Digite placa do veiculo");
-                return;
-            }
-            if (comboBox1.SelectedIndex != -1)
-            {
-                PBox pBox;
-                using (var db = new onmVizDBContext())
+                if (!string.IsNullOrEmpty(textBox2.Text) && !string.IsNullOrEmpty(TxtBoxJustificativa.Text))
                 {
-                    pBox = db.PictureBoxes.Where(d => d.PictureBoxName == comboBox1.Text).FirstOrDefault();
-                }
-                string IDRecurso = pBox.IDRecurso.ToString();
-                string placaAuto = textBox1.Text;
+                    button1.Enabled = false;
+                    button1.Text = "Processando...";
+                    PBox pBox;
+                    using (var db = new onmVizDBContext())
+                    {
+                        pBox = db.PictureBoxes.Where(d => d.PictureBoxName == textBox2.Text).FirstOrDefault();
+                    }
+                    string IDRecurso = pBox.IDRecurso.ToString();
+                    string placaAuto = textBox1.Text;
+                    await Task.Run(() => CallAPI(IDRecurso, placaAuto));
+                    await SaveLog(currentIdentity.Name, TxtBoxJustificativa.Text, placaAuto, textBox2.Text);
 
-                await CallAPI(IDRecurso, placaAuto);
+                    button1.Enabled = true;
+                    button1.Text = "Confirmar";
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show($"Preencha os campos placa e Justificativa");
                 return;
             }
-            MessageBox.Show($"Combobox vazia");
         }
+
 
         public async Task CallAPI(string id, string placa)
         {
@@ -95,10 +87,10 @@ namespace onmViz.Stream
                 //MessageBox.Show($"Teste: {response.Content}");
                 if (response.IsSuccessful)
                 {
-                    ResponseAPI resultado = JsonConvert.DeserializeObject<ResponseAPI>(response.Content);
-                    MessageBox.Show($"Tipo: {resultado.tipo}\n" +
-                                    $"Informação: {resultado.informacao}\n" +
-                                    $"Mensagem: {resultado.mensagem}");
+                    responseAPI = JsonConvert.DeserializeObject<ResponseAPI>(response.Content);
+                    MessageBox.Show($"Tipo: {responseAPI.tipo}\n" +
+                                          $"Informação: {responseAPI.informacao}\n" +
+                                          $"Mensagem: {responseAPI.mensagem}");
                     return;
                 }
                 else
@@ -163,6 +155,47 @@ namespace onmViz.Stream
                 newWidth = (int)(pic.Height * aspectRatio);
             }
             return image.Resize(newWidth, newHeight, Inter.Linear);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            WindowsIdentity currentIdentity = WindowsIdentity.GetCurrent();
+
+            if (currentIdentity != null)
+            {
+                MessageBox.Show($"Nome de Usuário: {currentIdentity.Name}\n" +
+                                $"Tipo: {responseAPI.tipo}\n" +
+                                $"Informação: {responseAPI.informacao}\n" +
+                                $"Mensagem: {responseAPI.mensagem}");
+                currentIdentity.Dispose();
+            }
+        }
+
+        public async Task SaveLog(string user, string message, string plate, string bridge)
+        {
+            using (var db = new onmVizDBContext())
+            {
+                var justificationLog = new JustificationLog
+                {
+                    User = user,
+                    JustificationMessage = message,
+                    LicensePlate = plate,
+                    ScaleBridge = bridge,
+                    JustificarionDateTime = DateTime.Now,
+                };
+                var integrationLog = new IntegrationLog
+                {
+                    Tipo = responseAPI.tipo,
+                    Info = responseAPI.informacao,
+                    Message = responseAPI.mensagem,
+                    IntegrationDateTime = DateTime.Now,
+                };
+                justificationLog.IntegrationLog = integrationLog;
+                integrationLog.JustificationLog = justificationLog;
+
+                db.JustificationLogs.Add(justificationLog);
+                db.SaveChanges();
+            }
         }
     }
 }
