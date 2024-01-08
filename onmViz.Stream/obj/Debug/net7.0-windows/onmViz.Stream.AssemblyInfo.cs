@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("onmViz.Stream")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4fe288fef584b80a5c05a7c500b342a3ff5bf52f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5aca9a803ee9927b126ddf7ba279477e5b1a049")]
 [assembly: System.Reflection.AssemblyProductAttribute("onmViz.Stream")]
 [assembly: System.Reflection.AssemblyTitleAttribute("onmViz.Stream")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

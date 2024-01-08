@@ -1,0 +1,17 @@
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\bin\Release\net7.0\appsettings.json
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\bin\Release\net7.0\params.json
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\bin\Release\net7.0\onmViz.DAL.deps.json
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\bin\Release\net7.0\onmViz.DAL.runtimeconfig.json
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\bin\Release\net7.0\onmViz.DAL.dll
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\bin\Release\net7.0\onmViz.DAL.pdb
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\onmViz.DAL.csproj.AssemblyReference.cache
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\onmViz.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\onmViz.DAL.AssemblyInfoInputs.cache
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\onmViz.DAL.AssemblyInfo.cs
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\onmViz.DAL.csproj.CoreCompileInputs.cache
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\onmViz.DAL.sourcelink.json
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\onmViz.DAL.dll
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\refint\onmViz.DAL.dll
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\onmViz.DAL.pdb
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\onmViz.DAL.genruntimeconfig.cache
+C:\Users\victo\source\repos\StreamCapture\onmViz.DAL\obj\Release\net7.0\ref\onmViz.DAL.dll

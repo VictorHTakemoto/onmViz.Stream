@@ -1,0 +1,6 @@
+{
+  "NomeAppSettings": "appsettings.json",
+  "DBConnection": "Producao",
+  "Http": "http://10.10.4.58:",
+  "Porta": "8082"
+}

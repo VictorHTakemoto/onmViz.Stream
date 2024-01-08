@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Camera1 = new PictureBox();
             Camera2 = new PictureBox();
             Camera3 = new PictureBox();
@@ -315,6 +316,7 @@
             Controls.Add(Camera3);
             Controls.Add(Camera2);
             Controls.Add(Camera1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "onmViz";
             WindowState = FormWindowState.Maximized;

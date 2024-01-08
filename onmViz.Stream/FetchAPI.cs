@@ -8,9 +8,7 @@ using onmViz.DAL.Model.Entity;
 using RestSharp;
 using System.Data;
 using File = System.IO.File;
-using System;
 using System.Security.Principal;
-using Microsoft.IdentityModel.Tokens;
 
 namespace onmViz.Stream
 {
@@ -37,9 +35,9 @@ namespace onmViz.Stream
             this.Close();
         }
 
+        //Botao que faz a chamada da API Integracao
         private async void button1_Click(object sender, EventArgs e)
         {
-            var message = "Teste";
             WindowsIdentity currentIdentity = WindowsIdentity.GetCurrent();
             if (!string.IsNullOrEmpty(textBox1.Text))
             {
@@ -69,7 +67,7 @@ namespace onmViz.Stream
             }
         }
 
-
+        //Metodo responsavel por realizar a chamada da API Integracao OCR
         public async Task CallAPI(string id, string placa)
         {
             try
@@ -84,13 +82,12 @@ namespace onmViz.Stream
                 var request = new RestRequest($"/api/Operacao/PlacaManual?IDRecurso={id}&placa={placa}", Method.Post);
 
                 RestResponse response = await client.ExecuteAsync(request);
-                //MessageBox.Show($"Teste: {response.Content}");
                 if (response.IsSuccessful)
                 {
                     responseAPI = JsonConvert.DeserializeObject<ResponseAPI>(response.Content);
                     MessageBox.Show($"Tipo: {responseAPI.tipo}\n" +
-                                          $"Informação: {responseAPI.informacao}\n" +
-                                          $"Mensagem: {responseAPI.mensagem}");
+                                    $"Informação: {responseAPI.informacao}\n" +
+                                    $"Mensagem: {responseAPI.mensagem}");
                     return;
                 }
                 else
@@ -139,6 +136,7 @@ namespace onmViz.Stream
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.Image = scale.ToBitmap();
         }
+        //Funcao redimensionar imagem
         private Image<Bgr, byte> ScaleImage(Image<Bgr, byte> image, PictureBox pic)
         {
             float aspectRatio = image.Width / image.Height;

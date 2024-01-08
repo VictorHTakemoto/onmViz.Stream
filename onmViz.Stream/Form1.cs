@@ -3,7 +3,6 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using onmViz.DAL.Model;
 using onmViz.DAL.Model.Entity;
-using static Azure.Core.HttpHeader;
 
 namespace onmViz.Stream
 {
@@ -690,7 +689,7 @@ namespace onmViz.Stream
         }
         private void Camera9_Click(object sender, EventArgs e)
         {
-            if(Camera9 != null)
+            if(_Cam9 != null)
             {
                 try
                 {
@@ -839,7 +838,7 @@ namespace onmViz.Stream
         }
         private void Camera11_Click(object sender, EventArgs e)
         {
-            if(Camera11 != null) 
+            if(_Cam11 != null) 
             {
                 try
                 {
